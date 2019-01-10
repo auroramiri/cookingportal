@@ -11,7 +11,11 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		role: {
 			type: Sequelize.STRING
-		}
+		},
+		//status: {
+			//type: Sequelize.ENUM('active', 'inactive'),
+			//defaultValue: 'active'
+	//}
 	});
 	
 	return User;

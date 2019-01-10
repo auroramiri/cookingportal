@@ -10,16 +10,30 @@ var bcrypt = require('bcryptjs');
 
 exports.signup = (req, res) => {
 	// Save User to Database
-	console.log("Processing func -> SignUp");
-	
-	User.create({
-		username: req.body.username,
-		email: req.body.email,
-		password: bcrypt.hashSync(req.body.password, 8),
-		role: 'user'
-	}).catch(err => {
-		res.status(500).send("Fail! Error -> " + err);
-	})
+	User.findOne({where:{ username: req.body.username }})
+    .then(function (user) {
+      if(!user){
+        User.create({ 
+          username: req.body.username, 
+          password: bcrypt.hashSync(req.body.password, 8),
+		  email: req.body.email,
+		  role: 'user'
+        })
+        .then(function(user){
+              var myToken = jwt.sign({ user: user.id },
+                                      'secret',
+                                     { expiresIn: 24 * 60 * 60 });
+              res.send(200, {'token': myToken,
+                             'userId':    user.id,
+                             'username': user.username });
+        });
+      } else {
+        res.status(404).json('Username already exist!');
+      }
+    })
+    .catch(function (err) {
+      res.send('Error creating user: ', err.message);
+	});
 }
 
 exports.signin = (req, res) => {

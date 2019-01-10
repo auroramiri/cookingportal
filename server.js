@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 
 const cors = require('cors');
+const jsonParser = express.json();
 
 app.options('*', cors());
 app.use(cors()); 
@@ -20,3 +21,16 @@ var server = app.listen(8080, function () {
  
   console.log("App listening at http://%s:%s", host, port)
 })
+
+  
+//app.post("/signup", jsonParser, function (request, response) {
+//    console.log(request.body);
+//    if(!request.body) return response.sendStatus(400);
+//    console.log(request.body);
+//    response.json(`${request.body.userName} - ${request.body.userAge}`);
+//});
+  
+//app.get("/", function(request, response){
+      
+//    response.sendFile(__dirname + "/index.html");
+//});

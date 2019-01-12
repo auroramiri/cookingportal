@@ -44,7 +44,14 @@ const styles = (theme) => ({
 	},
 	submit: {
 		marginTop: theme.spacing.unit * 3,
+		textDecoration: 'none'
 	},
+
+	link: {
+		textDecoration: 'none'
+	},
+
+
 })
 class SignUp extends React.Component {
 	constructor(props) {
@@ -100,8 +107,8 @@ class SignUp extends React.Component {
 							<Input  onChange={this.handleEmailChange} id="email" name="email" autoComplete="email" autoFocus />
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="username">Username</InputLabel>
-							<Input  onChange={this.handleUsernameChange} id="username" name="username" autoComplete="username"/>
+							<InputLabel htmlFor="email">Username</InputLabel>
+							<Input  onChange={this.handleUsernameChange} id="email" name="email" autoComplete="email" autoFocus />
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
 							<InputLabel htmlFor="password">Password</InputLabel>
@@ -111,17 +118,17 @@ class SignUp extends React.Component {
 							control={<Checkbox value="remember" color="primary" />}
 							label="Remember me"
 						/>
-						<FilterLink filter="album" >
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-							className={classes.submit}
-							onClick={this.signUp()}
-						>
-							Sign up
-						</Button>
+						<FilterLink filter="album" className={classes.link} >
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								color="primary"
+								className={classes.submit}
+								onClick={this.signUp}
+							>
+								Sign up
+							</Button>
 						</FilterLink>
 					</form>
 				</Paper>

@@ -1,48 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Avatar from '@material-ui/core/Avatar';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import Grid from '@material-ui/core/Grid';
 
-const styles = theme => ({
-    fab: {
-        margin: theme.spacing.unit * 2,
+const styles = {
+    avatar: {
+        margin: 10,
     },
-    absolute: {
-        position: 'absolute',
-        bottom: theme.spacing.unit * 2,
-        right: theme.spacing.unit * 3,
+    orangeAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepOrange[500],
     },
-});
+    purpleAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+    },
+};
 
-function User(props) {
+function LetterAvatars(props) {
     const { classes } = props;
     return (
-        <div>
-            <Tooltip title="Delete">
-                <IconButton aria-label="Delete">
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Add" aria-label="Add">
-                <Fab color="primary" className={classes.fab}>
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
-            <Tooltip title="Add" aria-label="Add">
-                <Fab color="secondary" className={classes.absolute}>
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
-        </div>
+        <Grid container justify="center" alignItems="center">
+            <Avatar className={classes.avatar}>H</Avatar>
+        </Grid>
     );
 }
 
-User.propTypes = {
+LetterAvatars.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(User);
+export default withStyles(styles)(LetterAvatars);

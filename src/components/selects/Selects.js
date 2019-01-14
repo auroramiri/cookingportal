@@ -19,6 +19,12 @@ const styles = (theme) => ({
 		margin: theme.spacing.unit,
 		minWidth: 120,
 	},
+	button: {
+		margin: theme.spacing.unit,
+	},
+	input: {
+		display: 'none',
+	},
 })
 
 class DialogSelect extends React.Component {
@@ -44,7 +50,7 @@ class DialogSelect extends React.Component {
 
     	return (
     		<div>
-    			<Button onClick={this.handleClickOpen}>Выберете категорию блюда</Button>
+    			<Button onClick={this.handleClickOpen}  variant="contained" color="primary" className={classes.button}>Выберете категорию блюда</Button>
     			<Dialog
     				disableBackdropClick
     				disableEscapeKeyDown
@@ -65,6 +71,9 @@ class DialogSelect extends React.Component {
     								<option value={10}>Горячее</option>
     								<option value={20}>Суп</option>
     								<option value={30}>Десерт</option>
+									<option value={40}>Гарнир</option>
+									<option value={50}>Салаты</option>
+									<option value={60}>Закуски</option>
     							</Select>
     						</FormControl>
     					</form>

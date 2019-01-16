@@ -9,6 +9,8 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
+import FilterLink from '../link/link'
+import Button from '@material-ui/core/Button'
 
 const styles = (theme) => ({
 	root: {
@@ -84,6 +86,20 @@ function SearchAppBar(props) {
                         Тут будет какое-то название какое как-нибудь потом наверное придумаем
 					</Typography>
 					<div className={classes.grow} />
+					<FilterLink filter="signin" className={classes.link} >
+					<Button type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={classes.submit}>Вход</Button>
+					</FilterLink>
+						<FilterLink filter="signup" className={classes.link} >
+					<Button type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={classes.submit}>Регистрция</Button>
+						</FilterLink>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
 							<SearchIcon />

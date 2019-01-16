@@ -64,7 +64,7 @@ class SignUp extends React.Component {
 			email:'',
 			username:'',
 			password:'',
-			roles: '["user"]'
+			roles: ["user"]
 		}
 	}
 	signUp(){
@@ -101,25 +101,21 @@ class SignUp extends React.Component {
 						<LockIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign up
+						Регистрация
 					</Typography>
 					<form className={classes.form}>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="email">Email Address</InputLabel>
+							<InputLabel htmlFor="email">Адрес электронной почты</InputLabel>
 							<Input  onChange={this.handleEmailChange} id="email" name="email" autoComplete="email" autoFocus />
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="email">Username</InputLabel>
-							<Input  onChange={this.handleUsernameChange} id="email" name="email" autoComplete="email" autoFocus />
+							<InputLabel htmlFor="email">Имя пользователя</InputLabel>
+							<Input  onChange={this.handleUsernameChange} id="email" name="email" autoComplete="email" />
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="password">Password</InputLabel>
+							<InputLabel htmlFor="password">Пароль</InputLabel>
 							<Input onChange={this.handlePasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
 						</FormControl>
-						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
-							label="Remember me"
-						/>
 						<FilterLink filter="album" className={classes.link} >
 							<Button
 								type="submit"
@@ -129,7 +125,7 @@ class SignUp extends React.Component {
 								className={classes.submit}
 								onClick={this.signUp}
 							>
-								Sign up
+								Зарегистрироваться
 							</Button>
 						</FilterLink>
 					</form>

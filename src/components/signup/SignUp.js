@@ -63,14 +63,16 @@ class SignUp extends React.Component {
 		this.state = {
 			email:'',
 			username:'',
-			password:''
+			password:'',
+			roles: '["user"]'
 		}
 	}
 	signUp(){
 		axios.post('http://localhost:8080/signup', {
 			email: this.state.email,
 			username: this.state.username,
-			password: this.state.password
+			password: this.state.password,
+			roles: this.state.roles
 		})
 			.then(function (response) {
 				console.log(response)

@@ -11,50 +11,14 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import FilterLink from '../link/link'
-import {logIn} from '../../Actions/signinActions'
+import {userSignIn} from '../../Actions/signinActions'
 import connect from 'react-redux/es/connect/connect'
 import axios from 'axios'
 
 
-const styles = (theme) => ({
-	main: {
-		width: 'auto',
-		display: 'block', // Fix IE 11 issue.
-		marginLeft: theme.spacing.unit * 3,
-		marginRight: theme.spacing.unit * 3,
-		[theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-			width: 400,
-			marginLeft: 'auto',
-			marginRight: 'auto',
-		},
-	},
-	paper: {
-		marginTop: theme.spacing.unit * 8,
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-	},
-	avatar: {
-		margin: theme.spacing.unit,
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing.unit,
-	},
-	submit: {
-		marginTop: theme.spacing.unit * 3,
-		textDecoration: 'none'
-	},
 
-	link: {
-		textDecoration: 'none'
-	},
-
-
-})
 class SignIn extends React.Component {
+
 	constructor(props) {
 		super(props)
 		this.signIn = this.signIn.bind(this)
@@ -72,11 +36,8 @@ class SignIn extends React.Component {
 			email: this.state.email,
 			password: this.state.password
 		})
-			.then(function (response) {
-				this.props.dispatch(logIn(JSON.parse(response.data)))
-			})
-			.catch(function (error) {
-				console.log(error)
+			.then(function (res) {
+				this.props.dispatch(userSignIn(JSON.parse(res.data)))
 			})
 	}
 	handleEmailChange(e){
@@ -86,20 +47,54 @@ class SignIn extends React.Component {
 		this.setState({password:e.target.value})
 	}
 	render() {
-		const { classes } = this.props
+		const styles = (theme) => ({
+			main: {
+				width: 'auto',
+				display: 'block', // Fix IE 11 issue.
+				marginLeft: theme.spacing.unit * 3,
+				marginRight: theme.spacing.unit * 3,
+				[theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+					width: 400,
+					marginLeft: 'auto',
+					marginRight: 'auto',
+				},
+			},
+			paper: {
+				marginTop: theme.spacing.unit * 8,
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+			},
+			avatar: {
+				margin: theme.spacing.unit,
+				backgroundColor: theme.palette.secondary.main,
+			},
+			form: {
+				width: '100%', // Fix IE 11 issue.
+				marginTop: theme.spacing.unit,
+			},
+			submit: {
+				marginTop: theme.spacing.unit * 3,
+				textDecoration: 'none'
+			},
+
+			link: {
+				textDecoration: 'none'
+			},
+		})
 
 		return (
-			<main >
-
+			<main className={styles.main}>
 				<CssBaseline />
-				<Paper >
-					<Avatar >
+				<Paper className={styles.paper}>
+					<Avatar className={styles.avatar}>
 						<LockIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
 						Вход
 					</Typography>
-					<form >
+					<form className={styles.form}>
 						<FormControl margin="normal" required fullWidth>
 							<InputLabel htmlFor="email">Адрес электронной почты</InputLabel>
 							<Input  onChange={this.handleEmailChange} id="email" name="email" autoComplete="email" autoFocus />
@@ -114,7 +109,7 @@ class SignIn extends React.Component {
 								fullWidth
 								variant="contained"
 								color="primary"
-
+								className={styles.submit}
 								onClick={this.signIn}
 							>
 								Войти
@@ -129,10 +124,14 @@ class SignIn extends React.Component {
 }
 
 
+SignIn.propTypes = {
+	classes: PropTypes.object.isRequired,
+}
 
 function mapStateToProps(state) {
 	return {
-		login: state.login,
+		user: state.user
+
 	}
 }
 

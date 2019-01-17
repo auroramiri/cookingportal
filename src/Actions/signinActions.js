@@ -1,11 +1,14 @@
-import {SIGNIN} from '../Constants/signinConstants'
+import {USER} from '../Constants/signinConstants'
 
-const logIn = (signin) => ({
-	type: SIGNIN.SIGNIN_START,
-	signin
+
+const userSignIn = (user) => ({
+	type: USER.SIGN_IN,
+	user
 })
 
+
+
 export {
-	logIn,
+	userSignIn,
 
 }

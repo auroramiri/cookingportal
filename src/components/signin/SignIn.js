@@ -9,11 +9,11 @@ import InputLabel from '@material-ui/core/InputLabel'
 import LockIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
 import FilterLink from '../link/link'
 import {userSignIn} from '../../Actions/signinActions'
 import connect from 'react-redux/es/connect/connect'
 import axios from 'axios'
+import '../../Assets/CSS/Signin.css'
 
 
 
@@ -26,8 +26,7 @@ class SignIn extends React.Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this)
 		this.state = {
 			email:'',
-			password:'',
-			token: ''
+			password:''
 		}
 	}
 
@@ -39,6 +38,7 @@ class SignIn extends React.Component {
 			.then(function (res) {
 				this.props.dispatch(userSignIn(JSON.parse(res.data)))
 			})
+
 	}
 	handleEmailChange(e){
 		this.setState({email:e.target.value})
@@ -47,54 +47,17 @@ class SignIn extends React.Component {
 		this.setState({password:e.target.value})
 	}
 	render() {
-		const styles = (theme) => ({
-			main: {
-				width: 'auto',
-				display: 'block', // Fix IE 11 issue.
-				marginLeft: theme.spacing.unit * 3,
-				marginRight: theme.spacing.unit * 3,
-				[theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-					width: 400,
-					marginLeft: 'auto',
-					marginRight: 'auto',
-				},
-			},
-			paper: {
-				marginTop: theme.spacing.unit * 8,
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-			},
-			avatar: {
-				margin: theme.spacing.unit,
-				backgroundColor: theme.palette.secondary.main,
-			},
-			form: {
-				width: '100%', // Fix IE 11 issue.
-				marginTop: theme.spacing.unit,
-			},
-			submit: {
-				marginTop: theme.spacing.unit * 3,
-				textDecoration: 'none'
-			},
-
-			link: {
-				textDecoration: 'none'
-			},
-		})
-
 		return (
-			<main className={styles.main}>
+			<main className={'main'}>
 				<CssBaseline />
-				<Paper className={styles.paper}>
-					<Avatar className={styles.avatar}>
+				<Paper className={'paper'}>
+					<Avatar className={'avatar'}>
 						<LockIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
 						Вход
 					</Typography>
-					<form className={styles.form}>
+					<form className={'form'}>
 						<FormControl margin="normal" required fullWidth>
 							<InputLabel htmlFor="email">Адрес электронной почты</InputLabel>
 							<Input  onChange={this.handleEmailChange} id="email" name="email" autoComplete="email" autoFocus />
@@ -103,18 +66,17 @@ class SignIn extends React.Component {
 							<InputLabel htmlFor="password">Пароль</InputLabel>
 							<Input onChange={this.handlePasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
 						</FormControl>
-						<FilterLink filter="album"  >
+						<FilterLink filter="album" className={'link'} >
 							<Button
-								type="submit"
+
 								fullWidth
 								variant="contained"
 								color="primary"
-								className={styles.submit}
+								className={'submit'}
 								onClick={this.signIn}
 							>
 								Войти
 							</Button>
-							{console.log(this.props)}
 						</FilterLink>
 					</form>
 				</Paper>

@@ -1,15 +1,23 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+app.use(bodyParser.json())
 
 const cors = require('cors');
-const jsonParser = express.json();
 
 app.options('*', cors());
 app.use(cors()); 
-app.use(bodyParser.json())
-
+ 
 require('./app/router/router.js')(app);
+
+const db = require('./app/config/db.config.js');
+
+const Role = db.role;
+  
+// force: true will drop the table if it already exists
+db.sequelize.sync({force: true}).then(() => {
+  initial();
+});
  
 //require('./app/route/project.route.js')(app);
  
@@ -22,15 +30,15 @@ var server = app.listen(8080, function () {
   console.log("App listening at http://%s:%s", host, port)
 })
 
-  
-//app.post("/signup", jsonParser, function (request, response) {
-//    console.log(request.body);
-//    if(!request.body) return response.sendStatus(400);
-//    console.log(request.body);
-//    response.json(`${request.body.userName} - ${request.body.userAge}`);
-//});
-  
-//app.get("/", function(request, response){
-      
-//    response.sendFile(__dirname + "/index.html");
-//});
+
+function initial(){
+	Role.create({
+		id: 1,
+		name: "admin"
+	});
+	
+	Role.create({
+		id: 2,
+		name: "user"
+	});
+}

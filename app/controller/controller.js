@@ -9,31 +9,47 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 exports.signup = (req, res) => {
-	// Save User to Database
-	User.findOne({where:{ username: req.body.username }})
-    .then(function (user) {
+	User.findOne({ 
+		where: {
+			email: req.body.email
+		} 
+	}).then(user => {
+		if(user){
+			res.json("Fail -> Email is already in use!");
+			return;
+		}
+		else{	
+		User.findOne({where:{ username: req.body.username }})
+    .then(user =>{
       if(!user){
         User.create({ 
           username: req.body.username, 
           password: bcrypt.hashSync(req.body.password, 8),
-		  email: req.body.email,
-		  role: 'user'
+		  		email: req.body.email
         })
-        .then(function(user){
-              var myToken = jwt.sign({ user: user.id },
-                                      'secret',
-                                     { expiresIn: 24 * 60 * 60 });
-              res.send(200, {'token': myToken,
-                             'userId':    user.id,
-                             'username': user.username });
-        });
-      } else {
-        res.status(404).json('Username already exist!');
-      }
-    })
-    .catch(function (err) {
-      res.send('Error creating user: ', err.message);
-	});
+        .then((user) =>{
+					Role.findAll({
+						where: {
+						name: {
+							[Op.or]: req.body.roles
+						}
+						}
+					}).then(roles => {
+						user.setRoles(roles).then(() => {
+							res.send("User registered successfully!");
+									});
+				});
+      } 
+				)}else {
+			res.json('Username already exist!');
+			return;
+				} 
+}
+	)
+	}}).catch(err => {
+		res.status(500).send("Fail! Error -> " + err);
+		return;
+	})
 }
 
 exports.signin = (req, res) => {
@@ -41,7 +57,7 @@ exports.signin = (req, res) => {
 	
 	User.findOne({
 		where: {
-			username: req.body.username
+			email: req.body.email
 		}
 	}).then(user => {
 		if (!user) {
@@ -50,14 +66,14 @@ exports.signin = (req, res) => {
 
 		var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 		if (!passwordIsValid) {
-			return res.status(401).send({ auth: false, accessToken: null, reason: "Invalid Password!" });
+			return res.status(401).send({  accessToken: null, reason: "Invalid Password!" });
 		}
 		
 		var token = jwt.sign({ id: user.id }, config.secret, {
 		  expiresIn: 86400 // expires in 24 hours
 		});
 		
-		res.status(200).send({ auth: true, accessToken: token });
+		res.status(200).send( {accessToken: token });
 		
 	}).catch(err => {
 		res.status(500).send('Error -> ' + err);
@@ -67,7 +83,14 @@ exports.signin = (req, res) => {
 exports.userContent = (req, res) => {
 	User.findOne({
 		where: {id: req.userId},
-		attributes: ['username', 'email'],
+		attributes: ['name', 'username', 'email'],
+		include: [{
+			model: Role,
+			attributes: ['id', 'name'],
+			through: {
+				attributes: ['userId', 'roleId'],
+			}
+		}]
 	}).then(user => {
 		res.status(200).json({
 			"description": "User Content Page",
@@ -82,18 +105,15 @@ exports.userContent = (req, res) => {
 }
 
 exports.adminBoard = (req, res) => {
-	User.findOne({
-		where: {id: req.userId},
-		attributes: ['username', 'email', 'role'],
-	}).then(user => {
+	User.findAll({ attributes: ['username', 'email']}).then(users =>{
 		res.status(200).json({
-			"description": "Admin Board",
-			"user": user
-		});
+			"description":"Admin board",
+			"users":users
+		 });
 	}).catch(err => {
 		res.status(500).json({
 			"description": "Can not access Admin Board",
 			"error": err
 		});
-	})
+	});
 }

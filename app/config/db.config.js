@@ -29,8 +29,8 @@ db.role = require('../model/role.model.js')(sequelize, Sequelize);
 db.recipe = require('../model/recipe.model.js')(sequelize, Sequelize);
 db.comment = require('../model/comment.model.js')(sequelize, Sequelize);
  
-db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'roleId', otherKey: 'userId'});
-db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'userId', otherKey: 'roleId'});
+db.role.hasMany(db.user);
+db.user.belongsTo(db.role);
 
 db.recipe.belongsToMany(db.tag, { through: RecipeTag, unique: false })
 db.tag.belongsToMany(db.recipe, { through: RecipeTag, unique: false })

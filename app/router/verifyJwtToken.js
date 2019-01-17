@@ -30,46 +30,22 @@ isAdmin = (req, res, next) => {
 	
 	User.findById(req.userId)
 		.then(user => {
-			user.getRoles().then(roles => {
-				for(let i=0; i<roles.length; i++){
-					console.log(roles[i].name);
-					if(roles[i].name === "admin"){
+			
+					if(user.roleId === 1){
 						next();
 						return;
 					}
-				}
 				
 				res.status(403).send("Require Admin Role!");
 				return;
-			})
+			
 		})
 }
 
-isUserOrAdmin = (req, res, next) => {
-	
-	User.findById(req.userId)
-		.then(user => {
-			user.getRoles().then(roles => {
-				for(let i=0; i<roles.length; i++){					
-					if(roles[i].name === "user"){
-						next();
-						return;
-					}
-					
-					if(roles[i].name === "admin"){
-						next();
-						return;
-					}
-				}
-				
-				res.status(403).send("Require authorization");
-			})
-		})
-}
+
 
 const authJwt = {};
 authJwt.verifyToken = verifyToken;
 authJwt.isAdmin = isAdmin;
-authJwt.isUserOrAdmin = isUserOrAdmin;
 
 module.exports = authJwt;

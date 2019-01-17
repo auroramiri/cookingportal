@@ -23,24 +23,13 @@ exports.signup = (req, res) => {
     .then(user =>{
       if(!user){
         User.create({ 
-          username: req.body.username, 
-          password: bcrypt.hashSync(req.body.password, 8),
-		  		email: req.body.email
-        })
-        .then((user) =>{
-					Role.findAll({
-						where: {
-						name: {
-							[Op.or]: req.body.roles
-						}
-						}
-					}).then(roles => {
-						user.setRoles(roles).then(() => {
-							res.send("User registered successfully!");
-									});
-				});
-      } 
-				)}else {
+        	username: req.body.username, 
+        	password: bcrypt.hashSync(req.body.password, 8),
+			email: req.body.email,
+			roleId: req.body.roleId
+		}),
+		res.send("User registered successfully!");
+        }else {
 			res.json('Username already exist!');
 			return;
 				} 
@@ -63,7 +52,7 @@ exports.signin = (req, res) => {
 		if (!user) {
 			return res.status(404).send('User Not Found.');
 		}
-
+		else{
 		var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 		if (!passwordIsValid) {
 			return res.status(401).send({  accessToken: null, reason: "Invalid Password!" });
@@ -72,9 +61,15 @@ exports.signin = (req, res) => {
 		var token = jwt.sign({ id: user.id }, config.secret, {
 		  expiresIn: 86400 // expires in 24 hours
 		});
-		
-		res.status(200).send( {accessToken: token });
-		
+		let isAdmin
+		if(user.roleId == 1){
+			isAdmin = true
+		}else{
+			isAdmin = false
+		}
+
+		res.status(200).send( {accessToken: token, isAdmin });
+	}
 	}).catch(err => {
 		res.status(500).send('Error -> ' + err);
 	});

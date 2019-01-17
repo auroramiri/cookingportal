@@ -30,10 +30,10 @@ const styles = (theme) => ({
 class DialogSelect extends React.Component {
     state = {
     	open: false,
-    	age: '',
+		category: '',
     };
 
-    handleChange = (name) => (event) => {
+    handleCategoryChange = (name) => (event) => {
     	this.setState({ [name]: Number(event.target.value) })
     };
 
@@ -60,12 +60,12 @@ class DialogSelect extends React.Component {
     				<DialogContent>
     					<form className={classes.container}>
     						<FormControl className={classes.formControl}>
-    							<InputLabel htmlFor="age-native-simple">Категория</InputLabel>
+    							<InputLabel htmlFor="category-native-simple">Категория</InputLabel>
     							<Select
     								native
-    								value={this.state.age}
-    								onChange={this.handleChange('age')}
-    								input={<Input id="age-native-simple" />}
+    								value={this.state.category}
+    								onChange={this.handleCategoryChange('category')}
+    								input={<Input id="category-native-simple" />}
     							>
     								<option value="" />
     								<option value={10}>Горячее</option>

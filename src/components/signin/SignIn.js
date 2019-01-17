@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import FilterLink from '../link/link'
 import {logIn} from '../../Actions/signinActions'
-import connect from 'react-redux/es/connect/connect';
+import connect from 'react-redux/es/connect/connect'
 import axios from 'axios'
 
 
@@ -73,14 +73,7 @@ class SignIn extends React.Component {
 			password: this.state.password
 		})
 			.then(function (response) {
-				console.log(response)
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-		axios.get('http://localhost:8080/signin')
-			.then(function (response) {
-				this.props.dispatch(logIn('JSON.parse(response.data)'))
+				this.props.dispatch(logIn(JSON.parse(response.data)))
 			})
 			.catch(function (error) {
 				console.log(error)
@@ -140,7 +133,7 @@ class SignIn extends React.Component {
 function mapStateToProps(state) {
 	return {
 		login: state.login,
-			}
+	}
 }
 
 export default connect(mapStateToProps)(SignIn)

@@ -15,16 +15,16 @@ class MarkDown extends React.Component {
     			toolbar: 'undo redo | image code',
 
     			images_upload_handler: function (blobInfo, success, failure) {
-    				var xhr, formData
+    				let xhr, formData
 
     				xhr = new XMLHttpRequest()
     				xhr.withCredentials = false
-    				xhr.open('POST', '@Url.Action("UploadImage", "Recipe")')
+    				xhr.open('POST', 'http://localhost:8080/CreatePecipe/UploadImages')
 
     				xhr.onload = function () {
-    					var json
+    					let json
 
-    					if (xhr.status != 200) {
+    					if (xhr.status !== 200) {
     						failure('HTTP Error: ' + xhr.status)
 
     						return
@@ -41,7 +41,9 @@ class MarkDown extends React.Component {
 
     				xhr.send(formData)
     			}
-    		}} />
+    		}}
+    		onChange={this.handleEditorChange}
+    		/>
 
     	)
     }

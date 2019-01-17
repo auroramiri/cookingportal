@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import LockIcon from '@material-ui/icons/LockOutlined'
@@ -13,7 +11,10 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import FilterLink from '../link/link'
-const axios = require('axios')
+import {logIn} from '../../Actions/signinActions'
+import connect from 'react-redux/es/connect/connect';
+import axios from 'axios'
+
 
 const styles = (theme) => ({
 	main: {
@@ -61,9 +62,11 @@ class SignIn extends React.Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this)
 		this.state = {
 			email:'',
-			password:''
+			password:'',
+			token: ''
 		}
 	}
+
 	signIn(){
 		axios.post('http://localhost:8080/signin', {
 			email: this.state.email,
@@ -71,6 +74,13 @@ class SignIn extends React.Component {
 		})
 			.then(function (response) {
 				console.log(response)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+		axios.get('http://localhost:8080/signin')
+			.then(function (response) {
+				this.props.dispatch(logIn('JSON.parse(response.data)'))
 			})
 			.catch(function (error) {
 				console.log(error)
@@ -86,39 +96,37 @@ class SignIn extends React.Component {
 		const { classes } = this.props
 
 		return (
-			<main className={classes.main}>
+			<main >
+
 				<CssBaseline />
-				<Paper className={classes.paper}>
-					<Avatar className={classes.avatar}>
+				<Paper >
+					<Avatar >
 						<LockIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign in
+						Вход
 					</Typography>
-					<form className={classes.form}>
+					<form >
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="email">Email Address</InputLabel>
+							<InputLabel htmlFor="email">Адрес электронной почты</InputLabel>
 							<Input  onChange={this.handleEmailChange} id="email" name="email" autoComplete="email" autoFocus />
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="password">Password</InputLabel>
+							<InputLabel htmlFor="password">Пароль</InputLabel>
 							<Input onChange={this.handlePasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
 						</FormControl>
-						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
-							label="Remember me"
-						/>
-						<FilterLink filter="album" className={classes.link} >
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-							className={classes.submit}
-							onClick={this.signIn}
-						>
-								Sign in
-						</Button>
+						<FilterLink filter="album"  >
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								color="primary"
+
+								onClick={this.signIn}
+							>
+								Войти
+							</Button>
+							{console.log(this.props)}
 						</FilterLink>
 					</form>
 				</Paper>
@@ -129,9 +137,10 @@ class SignIn extends React.Component {
 
 
 
-
-SignIn.propTypes = {
-	classes: PropTypes.object.isRequired,
+function mapStateToProps(state) {
+	return {
+		login: state.login,
+			}
 }
 
-export default withStyles(styles)(SignIn)
+export default connect(mapStateToProps)(SignIn)

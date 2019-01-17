@@ -9,21 +9,25 @@ import Recipe from '../Recipe/Recipe'
 import User from '../user/user'
 import Admin from '../admin/admin'
 import CreateRecipe from '../createrecipe/createrecipe'
+import store from '../../Store/store'
+import {Provider} from 'react-redux'
+
 const App = () => (
-	<Router>
-		<div>
-			<SearchAppBar>
-			</SearchAppBar>
-			<Route path="/Album" component={Album}/>
-			<Route path="/SignIn" component={SignIn}/>
-			<Route path="/SignUp" component={SignUp}/>
-			<Route path="/Recipe" component={Recipe}/>
-			<Route path="/User" component={User}/>
-			<Route path="/Admin" component={Admin}/>
-			<Route path="/CreateRecipe" component={CreateRecipe}/>
-			<Footer></Footer>
-		</div>
-	</Router>
+	<Provider store={store}>
+		<Router>
+			<div>
+				<SearchAppBar/>
+				<Route path="/Album" component={Album}/>
+				<Route path="/SignIn" component={SignIn}/>
+				<Route path="/SignUp" component={SignUp}/>
+				<Route path="/Recipe" component={Recipe}/>
+				<Route path="/User" component={User}/>
+				<Route path="/Admin" component={Admin}/>
+				<Route path="/CreateRecipe" component={CreateRecipe}/>
+				<Footer/>
+			</div>
+		</Router>
+	</Provider>
 )
 
 

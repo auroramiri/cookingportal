@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import FilterLink from '../link/link'
 import axios from 'axios'
 import '../../Assets/CSS/Signin.css'
+import {Link} from "react-router-dom";
 
 
 
@@ -49,7 +50,6 @@ class SignUp extends React.Component {
 		this.setState({password:e.target.value})
 	}
 	render() {
-		const { classes } = this.props
 
 		return (
 			<main className={'main'}>
@@ -74,7 +74,7 @@ class SignUp extends React.Component {
 							<InputLabel htmlFor="password">Пароль</InputLabel>
 							<Input onChange={this.handlePasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
 						</FormControl>
-						<FilterLink filter="album" className={'link'} >
+
 							<Button
 								fullWidth
 								variant="contained"
@@ -84,7 +84,7 @@ class SignUp extends React.Component {
 							>
 								Зарегистрироваться
 							</Button>
-						</FilterLink>
+
 					</form>
 				</Paper>
 			</main>

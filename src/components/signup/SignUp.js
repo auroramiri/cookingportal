@@ -26,7 +26,7 @@ class SignUp extends React.Component {
 			email:'',
 			username:'',
 			password:'',
-			roles: ["user"]
+			role: 2
 		}
 	}
 	signUp(){

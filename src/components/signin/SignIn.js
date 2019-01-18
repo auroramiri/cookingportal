@@ -35,8 +35,8 @@ class SignIn extends React.Component {
 			email: this.state.email,
 			password: this.state.password
 		})
-			.then(function (res) {
-				this.props.dispatch(userSignIn(JSON.parse(res.data)))
+			.then((res) => {
+				this.props.dispatch(userSignIn(res.data))
 			})
 
 	}
@@ -66,7 +66,6 @@ class SignIn extends React.Component {
 							<InputLabel htmlFor="password">Пароль</InputLabel>
 							<Input onChange={this.handlePasswordChange} name="password" type="password" id="password" autoComplete="current-password" />
 						</FormControl>
-						<FilterLink filter="album" className={'link'} >
 							<Button
 
 								fullWidth
@@ -77,7 +76,6 @@ class SignIn extends React.Component {
 							>
 								Войти
 							</Button>
-						</FilterLink>
 					</form>
 				</Paper>
 			</main>
